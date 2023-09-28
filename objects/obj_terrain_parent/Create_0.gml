@@ -3,88 +3,64 @@ image_speed = 0;
 image_index = irandom(image_number-1);
 click_count = 0;
 
+// Cria um dicionário para armazenar os recursos
+resources = ds_map_create();
+
+// Adiciona recursos ao dicionário
+ds_map_add(resources, "Wood", ds_map_create());
+ds_map_add(resources, "Stone", ds_map_create());
+ds_map_add(resources, "Iron", ds_map_create());
+ds_map_add(resources, "Coal", ds_map_create());
+ds_map_add(resources, "Steel", ds_map_create());
+
+// Define a contagem para cada recurso
+ds_map_find_value(resources, "Wood")[? "count"] = 0;
+ds_map_find_value(resources, "Stone")[? "count"] = 0;
+ds_map_find_value(resources, "Iron")[? "count"] = 0;
+ds_map_find_value(resources, "Coal")[? "count"] = 0;
+ds_map_find_value(resources, "Steel")[? "count"] = 0;
+
+//Define a contagem maxima para cada recurso
+ds_map_find_value(resources, "Wood")[? "count_max"] = 100; // Ajuste conforme necessário
+ds_map_find_value(resources, "Stone")[? "count_max"] = 100; // Ajuste conforme necessário
+ds_map_find_value(resources, "Iron")[? "count_max"] = 100; // Ajuste conforme necessário
+ds_map_find_value(resources, "Coal")[? "count_max"] = 100; // Ajuste conforme necessário
+ds_map_find_value(resources, "Steel")[? "count_max"] = 0; // Steel é definido como 0 em todos os biomas
+
+// Define o sprite para cada recurso
+ds_map_find_value(resources, "Wood")[? "sprite"] = spr_wood;
+ds_map_find_value(resources, "Stone")[? "sprite"] = spr_stone;
+ds_map_find_value(resources, "Iron")[? "sprite"] = spr_iron;
+ds_map_find_value(resources, "Coal")[? "sprite"] = spr_coal;
+ds_map_find_value(resources, "Steel")[? "sprite"] = spr_steel;
+
 //generate map resources
-if sprite_index = spr_Water{
-wood_count = 0;;
-stone_count = 0;
-iron_count = 0;
-coal_count = 0;
-
-fruits_count = 0;
-fish_count = "Unlimited";
-animal_count = 0;
-farmable_land = 0;
-
-build_space = 0;
+if sprite_index == spr_Water{
+    // No recurso no mar
 }
 
-if sprite_index = spr_Mud{
-wood_count = irandom_range(0,100);;
-stone_count = irandom_range(250,500);
-iron_count = irandom_range(250,500);
-coal_count = irandom_range(250,500);
-
-fruits_count = 0;
-fish_count = "Unlimited";
-animal_count = irandom_range(0,50);
-farmable_land = 0;
-
-build_space = 100;
+if sprite_index == spr_Mud{
+    // Recursos na praia: madeira e pedra
+    ds_map_find_value(resources, "Wood")[? "count"] = irandom_range(10,20);
+    ds_map_find_value(resources, "Stone")[? "count"] = irandom_range(5,10);
 }
 
-if sprite_index = spr_Sand{
-wood_count = irandom_range(0,200);;
-stone_count = irandom_range(500,1000);
-iron_count = irandom_range(500,1000);
-coal_count = irandom_range(500,1000);
-
-fruits_count = 0;
-fish_count = 0;
-animal_count = irandom_range(0,100);
-farmable_land = 0;
-
-build_space = 100;
+if sprite_index == spr_Sand{
+    // Recursos no deserto: pedra e ferro
+    ds_map_find_value(resources, "Stone")[? "count"] = irandom_range(10,20);
+    ds_map_find_value(resources, "Iron")[? "count"] = irandom_range(5,10);
 }
 
-if sprite_index = spr_Grass{
-wood_count = irandom_range(500,1000);;
-stone_count = irandom_range(100,500);
-iron_count = irandom_range(100,500);
-coal_count = irandom_range(100,500);
-
-fruits_count = irandom_range(250,500);
-fish_count = irandom_range(0,500);
-animal_count = irandom_range(500,1000);
-farmable_land = 100;
-
-build_space = 100;
+if sprite_index == spr_Grass{
+    // Recursos na floresta: madeira e carvão
+    ds_map_find_value(resources, "Wood")[? "count"] = irandom_range(20,30);
+    ds_map_find_value(resources, "Coal")[? "count"] = irandom_range(10,20);
 }
 
-if sprite_index = spr_Snow{
-wood_count = irandom_range(500,1000);;
-stone_count = irandom_range(500,1000);
-iron_count = irandom_range(500,1000);
-coal_count = irandom_range(500,1000);
-
-fruits_count = 0;
-fish_count = irandom_range(50,300);
-animal_count = irandom_range(500,500);
-farmable_land = 0;
-
-build_space = 100;
+if sprite_index == spr_Snow{
+    // Recursos na neve: ferro
+    ds_map_find_value(resources, "Iron")[? "count"] = irandom_range(10,20);
 }
-
-
-
-
-//Set limits
-fish_count_max = fish_count;
-animal_count_max = animal_count
-fruits_count_max = fruits_count;
-wood_count_max = wood_count;
-farmable_land_max = farmable_land;
-build_space_max = 100;
-
 
 //Persistance
 persistent = true;

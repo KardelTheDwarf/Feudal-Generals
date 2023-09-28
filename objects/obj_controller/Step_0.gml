@@ -19,11 +19,36 @@ if mouse_wheel_down(){
 }
 } 
 
+//Main menu
+if room = room_menu{
 
+// Cria uma variável para armazenar o som de navegação dos botões
+var button_sound = snd_click; // snd_menu é um som criado no editor de recursos
 
-//insinde map
-if (room == room_map) {
-with(current_map){
-obj_controller.resource_counts = [wood_count,stone_count,iron_count];
+// Verifica se o usuário pressionou a tecla para cima ou para baixo
+if (keyboard_check_pressed(vk_up)) {
+    // Decrementa o índice do menu e toca o som de navegação
+    menu_index--;
+    audio_play_sound(button_sound, 10, false);
+} else if (keyboard_check_pressed(vk_down)) {
+    // Incrementa o índice do menu e toca o som de navegação
+    menu_index++;
+    audio_play_sound(button_sound, 10, false);
 }
+
+// Verifica se o índice do menu está fora dos limites da lista de botões
+if (menu_index < 0) {
+    // Ajusta o índice para o último elemento da lista
+    menu_index = ds_list_size(buttons) - 1;
+} else if (menu_index >= ds_list_size(buttons)) {
+    // Ajusta o índice para o primeiro elemento da lista
+    menu_index = 0;
+}
+
+// Verifica se o usuário pressionou a tecla Enter ou Espaço
+if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(vk_space)) {
+    // Executa a ação do botão selecionado
+    var action = ds_list_find_value(buttons, menu_index)[1];
+    action();
+}	
 }

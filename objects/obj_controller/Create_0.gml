@@ -2,6 +2,8 @@
 game_pace = 2;  // segundos para ser um dia no jogo
 click_count = 0;
 
+//Main Menu
+scr_main_menu();	
 
 // --- Configurações da câmera ---
 dragging = false;
@@ -23,14 +25,6 @@ season = choose("Spring", "Summer", "Autumn", "Winter");
 // --- Lista de vilarejos ---
 all_villages = ds_list_create();
 current_map = noone;
-
-//Recursos UI
-resources = ["wood","stone","iron"];
-resource_sprites = [spr_wood,spr_stone,spr_iron];
-resource_counts = [];
-spacing = 50;  // Espaçamento entre os ícones no painel
-
-
 
 
 // --- Configurações das culturas ---
